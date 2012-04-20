@@ -199,6 +199,10 @@ class DJWorker extends DJBase {
             }
         } catch (Exception $e) {
             $this->log("[JOB] unhandled exception::\"{$e->getMessage()}\"", self::ERROR);
+
+            // die if server has gone away (heroku will restart worker)
+            if($e->getMessage() == 'SQLSTATE[HY000]: General error: 2006 MySQL server has gone away')
+              die();
         }
 
         $this->log("[JOB] worker shutting down after running {$job_count} jobs, over {$count} polling iterations", self::INFO);
