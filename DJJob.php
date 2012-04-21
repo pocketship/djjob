@@ -256,8 +256,8 @@ class DJJob extends DJBase {
 
         } catch (Exception $e) {
 
-
-            JobQueue::enqueue(new ErrorReporterJob($e));
+            if(strpos($this->worker_name, 'ErrorReporterJob') === false)
+              ErrorReporter::Report($e);
 
             // adding some info to error
             $this->finishWithError(basename($e->getFile()).':'.$e->getLine().':'.$e->getMessage());
