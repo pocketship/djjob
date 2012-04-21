@@ -256,7 +256,9 @@ class DJJob extends DJBase {
 
         } catch (Exception $e) {
 
-            if(strpos($this->worker_name, 'ErrorReporterJob') === false)
+            // report error if we're not already reporting error
+            // avoiding infinite error reporting loop
+            if($handler && get_class($handler) != 'ErrorReporterJob')
               ErrorReporter::Report($e);
 
             // adding some info to error
