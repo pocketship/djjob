@@ -307,7 +307,8 @@ class DJJob extends DJBase {
             UPDATE jobs
             SET attempts = attempts + 1,
                 failed_at = IF(attempts >= ?, NOW(), NULL),
-                error = IF(attempts >= ?, ?, NULL)
+                error = IF(attempts >= ?, ?, NULL),
+                run_at = date_add(NOW(), interval 30 minutes)
             WHERE id = ?",
             array(
                 $this->max_attempts,
