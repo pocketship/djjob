@@ -202,7 +202,7 @@ class DJWorker extends DJBase {
 
             // die if server has gone away (heroku will restart worker)
             if($e->getMessage() == 'SQLSTATE[HY000]: General error: 2006 MySQL server has gone away')
-              die();
+              die('SQLSTATE[HY000]: General error: 2006 MySQL server has gone away');
         }
 
         $this->log("[JOB] worker shutting down after running {$job_count} jobs, over {$count} polling iterations", self::INFO);
@@ -258,7 +258,7 @@ class DJJob extends DJBase {
 
             // report error if we're not already reporting error
             // avoiding infinite error reporting loop
-            if($handler && get_class($handler) != 'ErrorReporterJob')
+            if($handler && get_class($handler) != 'JobErrorReporter')
               ErrorReporter::Report($e);
 
             // adding some info to error
