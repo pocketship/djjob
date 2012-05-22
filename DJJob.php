@@ -212,6 +212,7 @@ class DJWorker extends DJBase {
 class DJJob extends DJBase {
 
     public function __construct($worker_name, $job_id, $options = array()) {
+        Logger::Reset();
         Logger::Extra('job_id', $job_id);
       
         $options = array_merge(array(
