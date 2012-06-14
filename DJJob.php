@@ -62,6 +62,8 @@ class DJBase {
                 } else {
                     self::$db = new PDO(self::$dsn);
                 }
+                
+                self::$db->exec('SET time_zone = "'.$_ENV['TIME_ZONE_MYSQL'].'";');
                 self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
                 throw new Exception("DJJob couldn't connect to the database. PDO said [{$e->getMessage()}]");
